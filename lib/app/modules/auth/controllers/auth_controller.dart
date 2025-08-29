@@ -7,6 +7,13 @@ class AuthController extends GetxController {
   final box = GetStorage();
 
   RxBool isLoading = false.obs;
+  // your existing code
+
+  RxBool isPasswordHidden = true.obs;
+
+  void togglePasswordVisibility() {
+    isPasswordHidden.value = !isPasswordHidden.value;
+  }
 
   Future<void> login(String email, String password) async {
     try {

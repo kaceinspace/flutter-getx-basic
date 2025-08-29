@@ -41,7 +41,7 @@ class ProfileController extends GetxController {
         }
       } else if (response.statusCode == 401) {
         box.remove('token');
-        Get.offAllNamed('/login');
+        Get.offAllNamed('/auth/login');
         Get.snackbar(
           'Session Expired',
           'Please login again',
