@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'dart:typed_data';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -18,17 +20,32 @@ class PostService extends GetConnect {
     }
   }
 
-  Future<Response> createPost(Map<String, dynamic> data, File? image) async {
+  Future<Response> createPost(
+    Map<String, dynamic> data,
+    File? image,
+    Uint8List? imageBytes,
+  ) async {
+    final token = box.read("token");
     final form = FormData({
       'title': data['title'],
       'content': data['content'],
       'status': data['status'].toString(),
-      if (image != null)
+      if (kIsWeb && imageBytes != null)
+        'foto': MultipartFile(
+          imageBytes,
+          filename: 'upload.png',
+          contentType: 'image/png',
+        ),
+      if (!kIsWeb && image != null)
         'foto': MultipartFile(image, filename: image.path.split('/').last),
     });
 
     try {
-      return await post("$postUrl/posts", form);
+      return await post(
+        "$postUrl/posts",
+        form,
+        headers: {"Authorization": "Bearer $token"},
+      );
     } catch (e) {
       return Response(statusCode: 500, statusText: "Exception: $e");
     }
@@ -38,17 +55,30 @@ class PostService extends GetConnect {
     int id,
     Map<String, dynamic> data,
     File? image,
+    Uint8List? imageBytes,
   ) async {
+    final token = box.read("token");
     final form = FormData({
       'title': data['title'],
       'content': data['content'],
       'status': data['status'].toString(),
-      if (image != null)
+      '_method': 'PUT', // Laravel method spoofing
+      if (kIsWeb && imageBytes != null)
+        'foto': MultipartFile(
+          imageBytes,
+          filename: 'upload.png',
+          contentType: 'image/png',
+        ),
+      if (!kIsWeb && image != null)
         'foto': MultipartFile(image, filename: image.path.split('/').last),
     });
 
     try {
-      return await put("$postUrl/posts/$id", form);
+      return await post(
+        "$postUrl/posts/$id",
+        form,
+        headers: {"Authorization": "Bearer $token"},
+      );
     } catch (e) {
       return Response(statusCode: 500, statusText: "Exception: $e");
     }
@@ -56,7 +86,11 @@ class PostService extends GetConnect {
 
   Future<Response> deletePost(int id) async {
     try {
-      return await delete("$postUrl/posts/$id");
+      final token = box.read("token");
+      return await delete(
+        "$postUrl/posts/$id",
+        headers: {"Authorization": "Bearer $token"},
+      );
     } catch (e) {
       return Response(statusCode: 500, statusText: "Exception: $e");
     }

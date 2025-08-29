@@ -1,5 +1,6 @@
 import 'dart:io';
-import 'package:flutter/material.dart';
+import 'dart:typed_data';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rpl1getx/app/data/models/post.dart';
@@ -13,18 +14,36 @@ class PostController extends GetxController {
   RxString errorMessage = ''.obs;
 
   Rx<File?> selectedImage = Rx<File?>(null);
+  Rx<Uint8List?> selectedImageBytes = Rx<Uint8List?>(null);
 
   final ImagePicker _picker = ImagePicker();
+
+  @override
+  void onInit() {
+    super.onInit();
+    fetchPosts();
+  }
 
   Future<void> pickImage() async {
     final picked = await _picker.pickImage(source: ImageSource.gallery);
     if (picked != null) {
-      selectedImage.value = File(picked.path);
+      if (kIsWeb) {
+        selectedImageBytes.value = await picked.readAsBytes();
+        selectedImage.value = null;
+      } else {
+        selectedImage.value = File(picked.path);
+        selectedImageBytes.value = null;
+      }
     }
   }
 
-  // 🔹 Fetch
-  void fetchPosts() async {
+  void clearSelectedImage() {
+    selectedImage.value = null;
+    selectedImageBytes.value = null;
+  }
+
+  // 🔹 Fetch Posts
+  Future<void> fetchPosts() async {
     try {
       isLoading(true);
       errorMessage('');
@@ -43,17 +62,29 @@ class PostController extends GetxController {
     }
   }
 
-  // 🔹 Create
+  // 🔹 Create Post
   Future<bool> createPost(String title, String content) async {
     try {
+      if (title.isEmpty || content.isEmpty) {
+        Get.snackbar("Error", "Title and content cannot be empty!");
+        return false;
+      }
+
+      isLoading(true);
       final data = {"title": title, "content": content, "status": 1};
-      final response = await _postService.createPost(data, selectedImage.value);
+      final response = await _postService.createPost(
+        data,
+        selectedImage.value,
+        selectedImageBytes.value,
+      );
 
       if (response.statusCode == 201 || response.statusCode == 200) {
-        final newPost = DataPost.fromJson(response.body['data']);
-        posts.insert(0, newPost);
         Get.snackbar("Success", "Post created successfully!");
-        selectedImage.value = null;
+        clearSelectedImage();
+
+        // Refresh data dan redirect
+        await fetchPosts();
+        Get.offAllNamed('/post'); // Redirect ke post list
         return true;
       } else {
         Get.snackbar("Error", "Failed: ${response.statusText}");
@@ -62,27 +93,35 @@ class PostController extends GetxController {
     } catch (e) {
       Get.snackbar("Error", "Exception: $e");
       return false;
+    } finally {
+      isLoading(false);
     }
   }
 
-  // 🔹 Update
+  // 🔹 Update Post
   Future<bool> updatePost(int id, String title, String content) async {
     try {
+      if (title.isEmpty || content.isEmpty) {
+        Get.snackbar("Error", "Title and content cannot be empty!");
+        return false;
+      }
+
+      isLoading(true);
       final data = {"title": title, "content": content, "status": 1};
       final response = await _postService.updatePost(
         id,
         data,
         selectedImage.value,
+        selectedImageBytes.value,
       );
 
       if (response.statusCode == 200) {
-        final updatedPost = DataPost.fromJson(response.body['data']);
-        final index = posts.indexWhere((p) => p.id == id);
-        if (index != -1) {
-          posts[index] = updatedPost;
-        }
         Get.snackbar("Success", "Post updated successfully!");
-        selectedImage.value = null;
+        clearSelectedImage();
+
+        // Refresh data dan redirect
+        await fetchPosts();
+        Get.offAllNamed('/post'); // Redirect ke post list
         return true;
       } else {
         Get.snackbar("Error", "Failed: ${response.statusText}");
@@ -91,16 +130,22 @@ class PostController extends GetxController {
     } catch (e) {
       Get.snackbar("Error", "Exception: $e");
       return false;
+    } finally {
+      isLoading(false);
     }
   }
 
-  // 🔹 Delete
+  // 🔹 Delete Post
   Future<bool> deletePost(int id) async {
     try {
+      isLoading(true);
       final response = await _postService.deletePost(id);
       if (response.statusCode == 200) {
-        posts.removeWhere((p) => p.id == id);
         Get.snackbar("Success", "Post deleted successfully!");
+
+        // Refresh data dan redirect
+        await fetchPosts();
+        Get.offAllNamed('/post'); // Redirect ke post list
         return true;
       } else {
         Get.snackbar("Error", "Failed: ${response.statusText}");
@@ -109,6 +154,8 @@ class PostController extends GetxController {
     } catch (e) {
       Get.snackbar("Error", "Exception: $e");
       return false;
+    } finally {
+      isLoading(false);
     }
   }
 }

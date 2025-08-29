@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rpl1getx/app/data/models/post.dart';
 import 'package:rpl1getx/app/middlewares/auth_middleware.dart';
 import 'package:rpl1getx/app/modules/post/views/post_create_view.dart';
 import 'package:rpl1getx/app/modules/post/views/post_edit_view.dart';
@@ -50,7 +52,14 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.EDIT_POST,
-      page: () => EditPostView(),
+      page: () {
+        final post = Get.arguments as DataPost?;
+        if (post == null) {
+          Get.offNamed(Routes.POST);
+          return Container();
+        }
+        return EditPostView(post: post);
+      },
       binding: PostBinding(),
       middlewares: [AuthMiddleware()],
     ),

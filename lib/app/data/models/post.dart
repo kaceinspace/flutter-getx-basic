@@ -50,11 +50,13 @@ class DataPost {
   });
 
   factory DataPost.fromJson(Map<String, dynamic> json) => DataPost(
-    id: json["id"],
+    id: json["id"] is String ? int.tryParse(json["id"]) : json["id"],
     title: json["title"],
     content: json["content"],
     slug: json["slug"],
-    status: json["status"],
+    status: json["status"] is String
+        ? int.tryParse(json["status"])
+        : json["status"],
     foto: json["foto"],
     createdAt: json["created_at"] == null
         ? null
