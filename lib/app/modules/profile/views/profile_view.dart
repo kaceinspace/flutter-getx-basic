@@ -4,7 +4,7 @@ import 'package:rpl1getx/app/modules/auth/controllers/auth_controller.dart';
 import '../controllers/profile_controller.dart';
 
 class ProfileView extends GetView<ProfileController> {
-  const ProfileView({Key? key}) : super(key: key);
+  const ProfileView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -578,7 +578,7 @@ class ProfileView extends GetView<ProfileController> {
                   const Divider(height: 1, indent: 72),
               ],
             );
-          }).toList(),
+          }),
           const SizedBox(height: 8),
         ],
       ),

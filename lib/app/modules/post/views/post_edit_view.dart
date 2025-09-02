@@ -11,7 +11,7 @@ class EditPostView extends StatelessWidget {
   late final TextEditingController titleC;
   late final TextEditingController contentC;
 
-  EditPostView({Key? key, this.post}) : super(key: key) {
+  EditPostView({super.key, this.post}) {
     // Get post from arguments if not provided
     final DataPost? postData = post ?? Get.arguments as DataPost?;
 

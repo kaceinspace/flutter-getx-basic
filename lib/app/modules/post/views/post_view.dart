@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rpl1getx/app/modules/post/views/post_detail_view.dart';
+import 'package:rpl1getx/app/utils/api_helper.dart';
 
 import '../controllers/post_controller.dart';
 
 class PostView extends GetView<PostController> {
-  PostView({Key? key}) : super(key: key);
+  PostView({super.key});
+  @override
   final PostController controller = Get.put(PostController());
 
   @override
@@ -147,9 +149,7 @@ class PostView extends GetView<PostController> {
                       borderRadius: BorderRadius.circular(15),
                       boxShadow: [
                         BoxShadow(
-                          color: const Color(
-                            0xFF6C5CE7,
-                          ).withOpacity(0.2),
+                          color: const Color(0xFF6C5CE7).withOpacity(0.2),
                           blurRadius: 10,
                           offset: const Offset(0, 4),
                         ),
@@ -157,63 +157,47 @@ class PostView extends GetView<PostController> {
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(15),
-                      child:
-                          post.foto != null && post.foto!.isNotEmpty
+                      child: post.foto != null && post.foto!.isNotEmpty
                           ? Image.network(
-                              'http://127.0.0.1:8000/storage/${post.foto}',
+                              ApiHelper.getImageUrl(post.foto),
                               fit: BoxFit.cover,
                               loadingBuilder:
-                                  (
-                                    context,
-                                    child,
-                                    loadingProgress,
-                                  ) {
-                                    if (loadingProgress == null)
-                                      return child;
+                                  (context, child, loadingProgress) {
+                                    if (loadingProgress == null) return child;
                                     return Container(
                                       decoration: BoxDecoration(
                                         color: Colors.grey[200],
-                                        borderRadius:
-                                            BorderRadius.circular(
-                                              15,
-                                            ),
+                                        borderRadius: BorderRadius.circular(15),
                                       ),
                                       child: const Center(
                                         child: CircularProgressIndicator(
                                           strokeWidth: 2,
                                           valueColor:
-                                              AlwaysStoppedAnimation<
-                                                Color
-                                              >(Color(0xFF6C5CE7)),
+                                              AlwaysStoppedAnimation<Color>(
+                                                Color(0xFF6C5CE7),
+                                              ),
                                         ),
                                       ),
                                     );
                                   },
-                          errorBuilder:
-                              (context, error, stackTrace) {
+                              errorBuilder: (context, error, stackTrace) {
                                 return Container(
                                   decoration: BoxDecoration(
                                     color: Colors.grey[200],
-                                    borderRadius:
-                                        BorderRadius.circular(
-                                          15,
-                                        ),
+                                    borderRadius: BorderRadius.circular(15),
                                   ),
                                   child: const Icon(
-                                    Icons
-                                        .image_not_supported_rounded,
+                                    Icons.image_not_supported_rounded,
                                     color: Colors.grey,
                                     size: 30,
                                   ),
                                 );
                               },
-                          )
+                            )
                           : Container(
                               decoration: BoxDecoration(
                                 color: Colors.grey[200],
-                                borderRadius: BorderRadius.circular(
-                                  15,
-                                ),
+                                borderRadius: BorderRadius.circular(15),
                               ),
                               child: const Icon(
                                 Icons.article_outlined,
@@ -237,12 +221,8 @@ class PostView extends GetView<PostController> {
                               vertical: 4,
                             ),
                             decoration: BoxDecoration(
-                              color: const Color(
-                                0xFF6C5CE7,
-                              ).withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(
-                                8,
-                              ),
+                              color: const Color(0xFF6C5CE7).withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(8),
                             ),
                             child: Text(
                               '#${post.id}',
@@ -263,14 +243,10 @@ class PostView extends GetView<PostController> {
                               color: post.status == 1
                                   ? Colors.green.withOpacity(0.1)
                                   : Colors.orange.withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(
-                                8,
-                              ),
+                              borderRadius: BorderRadius.circular(8),
                             ),
                             child: Text(
-                              post.status == 1
-                                  ? 'Published'
-                                  : 'Draft',
+                              post.status == 1 ? 'Published' : 'Draft',
                               style: TextStyle(
                                 color: post.status == 1
                                     ? Colors.green
@@ -327,7 +303,7 @@ class PostView extends GetView<PostController> {
             ),
           ),
         ),
-      );
-    }
+      ),
+    );
   }
 }

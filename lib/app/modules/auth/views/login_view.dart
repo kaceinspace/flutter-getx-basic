@@ -13,13 +13,17 @@ class LoginView extends GetView {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: const Color(0xFFF5F7FA),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [Color(0xFF6C5CE7), Color(0xFFA29BFE), Color(0xFF74B9FF)],
+            colors: [
+              Color(0xFF1E3A8A), // Navy Blue
+              Color(0xFF3B82F6), // Blue
+              Color(0xFF60A5FA), // Light Blue
+            ],
           ),
         ),
         child: SafeArea(
@@ -28,39 +32,54 @@ class LoginView extends GetView {
               padding: const EdgeInsets.all(24.0),
               child: Column(
                 children: [
-                  const SizedBox(height: 60),
+                  const SizedBox(height: 40),
 
-                  // Logo/Icon with Animation
+                  // Logo SMK Assalaam dengan background
                   Hero(
-                    tag: 'app_logo',
+                    tag: 'smk_logo',
                     child: Container(
-                      padding: const EdgeInsets.all(24),
+                      padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.2),
+                        color: Colors.white,
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.white.withOpacity(0.1),
+                            color: Colors.black.withOpacity(0.1),
                             blurRadius: 20,
                             spreadRadius: 5,
                           ),
                         ],
                       ),
-                      child: const Icon(
-                        Icons.flutter_dash_rounded,
-                        size: 80,
-                        color: Colors.white,
+                      child: Container(
+                        width: 80,
+                        height: 80,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          gradient: const LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              Color(0xFF1E3A8A), // Navy Blue
+                              Color(0xFFFBBF24), // Yellow
+                            ],
+                          ),
+                        ),
+                        child: const Icon(
+                          Icons.menu_book_rounded,
+                          size: 40,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
 
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 30),
 
-                  // Welcome Title
+                  // Title & Subtitle
                   const Text(
-                    'Welcome Back!',
+                    'Perpustakaan Digital',
                     style: TextStyle(
-                      fontSize: 36,
+                      fontSize: 28,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
@@ -69,11 +88,23 @@ class LoginView extends GetView {
                   const SizedBox(height: 8),
 
                   const Text(
-                    'Sign in to continue your journey',
-                    style: TextStyle(fontSize: 16, color: Colors.white70),
+                    'SMK ASSALAAM BANDUNG',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFFFBBF24), // Yellow
+                      letterSpacing: 1.2,
+                    ),
                   ),
 
-                  const SizedBox(height: 50),
+                  const SizedBox(height: 8),
+
+                  const Text(
+                    'Akses koleksi buku digital terlengkap',
+                    style: TextStyle(fontSize: 14, color: Colors.white70),
+                  ),
+
+                  const SizedBox(height: 40),
 
                   // Login Form Card
                   Container(
@@ -94,20 +125,45 @@ class LoginView extends GetView {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            'Login',
-                            style: TextStyle(
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF2D3436),
-                            ),
-                          ),
-
-                          const SizedBox(height: 8),
-
-                          const Text(
-                            'Please sign in to your account',
-                            style: TextStyle(color: Colors.grey, fontSize: 14),
+                          // Header dengan icon buku
+                          Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  color: const Color(
+                                    0xFF1E3A8A,
+                                  ).withOpacity(0.1),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: const Icon(
+                                  Icons.library_books_rounded,
+                                  color: Color(0xFF1E3A8A),
+                                  size: 24,
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              const Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Masuk Akun',
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(0xFF1E3A8A),
+                                    ),
+                                  ),
+                                  Text(
+                                    'Login untuk mengakses perpustakaan',
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 13,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
 
                           const SizedBox(height: 32),
@@ -115,31 +171,34 @@ class LoginView extends GetView {
                           // Email Field
                           Container(
                             decoration: BoxDecoration(
-                              color: const Color(0xFFF8F9FA),
+                              color: const Color(0xFFF8FAFC),
                               borderRadius: BorderRadius.circular(15),
                               border: Border.all(
-                                color: Colors.grey.withOpacity(0.2),
+                                color: const Color(0xFF1E3A8A).withOpacity(0.1),
+                                width: 1.5,
                               ),
                             ),
                             child: TextFormField(
                               controller: emailC,
                               keyboardType: TextInputType.emailAddress,
                               decoration: const InputDecoration(
-                                labelText: 'Email Address',
+                                labelText: 'Email / NIS',
+                                hintText: 'Masukkan email atau NIS',
                                 prefixIcon: Icon(
-                                  Icons.email_rounded,
-                                  color: Color(0xFF6C5CE7),
+                                  Icons.account_circle_rounded,
+                                  color: Color(0xFF1E3A8A),
                                 ),
                                 border: InputBorder.none,
                                 contentPadding: EdgeInsets.all(16),
-                                labelStyle: TextStyle(color: Colors.grey),
+                                labelStyle: TextStyle(
+                                  color: Color(0xFF1E3A8A),
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                hintStyle: TextStyle(color: Colors.grey),
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Please enter your email';
-                                }
-                                if (!GetUtils.isEmail(value)) {
-                                  return 'Please enter a valid email';
+                                  return 'Masukkan email atau NIS';
                                 }
                                 return null;
                               },
@@ -152,10 +211,13 @@ class LoginView extends GetView {
                           Obx(
                             () => Container(
                               decoration: BoxDecoration(
-                                color: const Color(0xFFF8F9FA),
+                                color: const Color(0xFFF8FAFC),
                                 borderRadius: BorderRadius.circular(15),
                                 border: Border.all(
-                                  color: Colors.grey.withOpacity(0.2),
+                                  color: const Color(
+                                    0xFF1E3A8A,
+                                  ).withOpacity(0.1),
+                                  width: 1.5,
                                 ),
                               ),
                               child: TextFormField(
@@ -163,28 +225,33 @@ class LoginView extends GetView {
                                 obscureText: c.isPasswordHidden.value,
                                 decoration: InputDecoration(
                                   labelText: 'Password',
+                                  hintText: 'Masukkan password',
                                   prefixIcon: const Icon(
                                     Icons.lock_rounded,
-                                    color: Color(0xFF6C5CE7),
+                                    color: Color(0xFF1E3A8A),
                                   ),
                                   suffixIcon: IconButton(
                                     icon: Icon(
                                       c.isPasswordHidden.value
                                           ? Icons.visibility_rounded
                                           : Icons.visibility_off_rounded,
-                                      color: Colors.grey,
+                                      color: const Color(0xFF1E3A8A),
                                     ),
                                     onPressed: c.togglePasswordVisibility,
                                   ),
                                   border: InputBorder.none,
                                   contentPadding: const EdgeInsets.all(16),
                                   labelStyle: const TextStyle(
+                                    color: Color(0xFF1E3A8A),
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  hintStyle: const TextStyle(
                                     color: Colors.grey,
                                   ),
                                 ),
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Please enter your password';
+                                    return 'Masukkan password';
                                   }
                                   return null;
                                 },
@@ -200,16 +267,16 @@ class LoginView extends GetView {
                             child: TextButton(
                               onPressed: () {
                                 Get.snackbar(
-                                  'Coming Soon',
-                                  'Forgot password feature will be available soon!',
-                                  backgroundColor: const Color(0xFF6C5CE7),
-                                  colorText: Colors.white,
+                                  'Bantuan',
+                                  'Hubungi admin perpustakaan untuk reset password',
+                                  backgroundColor: const Color(0xFFFBBF24),
+                                  colorText: Colors.black,
                                 );
                               },
                               child: const Text(
-                                'Forgot Password?',
+                                'Lupa Password?',
                                 style: TextStyle(
-                                  color: Color(0xFF6C5CE7),
+                                  color: Color(0xFF1E3A8A),
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -226,16 +293,16 @@ class LoginView extends GetView {
                               decoration: BoxDecoration(
                                 gradient: const LinearGradient(
                                   colors: [
-                                    Color(0xFF6C5CE7),
-                                    Color(0xFFA29BFE),
+                                    Color(0xFF1E3A8A), // Navy Blue
+                                    Color(0xFF3B82F6), // Blue
                                   ],
                                 ),
                                 borderRadius: BorderRadius.circular(28),
                                 boxShadow: [
                                   BoxShadow(
                                     color: const Color(
-                                      0xFF6C5CE7,
-                                    ).withOpacity(0.4),
+                                      0xFF1E3A8A,
+                                    ).withOpacity(0.3),
                                     blurRadius: 20,
                                     offset: const Offset(0, 10),
                                   ),
@@ -279,10 +346,10 @@ class LoginView extends GetView {
                                               ),
                                               SizedBox(width: 12),
                                               Text(
-                                                'Sign In',
+                                                'Masuk Perpustakaan',
                                                 style: TextStyle(
                                                   color: Colors.white,
-                                                  fontSize: 18,
+                                                  fontSize: 16,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -296,129 +363,50 @@ class LoginView extends GetView {
 
                           const SizedBox(height: 32),
 
-                          // Divider
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  height: 1,
-                                  color: Colors.grey.withOpacity(0.3),
-                                ),
+                          // Info Box
+                          Container(
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFFBBF24).withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: const Color(0xFFFBBF24).withOpacity(0.3),
                               ),
-                              const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 16),
-                                child: Text(
-                                  'OR',
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                            ),
+                            child: Row(
+                              children: [
+                                const Icon(
+                                  Icons.info_outline_rounded,
+                                  color: Color(0xFF1E3A8A),
+                                  size: 20,
                                 ),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  height: 1,
-                                  color: Colors.grey.withOpacity(0.3),
-                                ),
-                              ),
-                            ],
-                          ),
-
-                          const SizedBox(height: 32),
-
-                          // Social Login Buttons
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  height: 50,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.grey.withOpacity(0.3),
-                                    ),
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  child: Material(
-                                    color: Colors.transparent,
-                                    child: InkWell(
-                                      borderRadius: BorderRadius.circular(12),
-                                      onTap: () {
-                                        Get.snackbar(
-                                          'Coming Soon',
-                                          'Google login will be available soon!',
-                                          backgroundColor: Colors.red,
-                                          colorText: Colors.white,
-                                        );
-                                      },
-                                      child: const Center(
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Icon(
-                                              Icons.g_mobiledata_rounded,
-                                              size: 24,
-                                            ),
-                                            SizedBox(width: 8),
-                                            Text(
-                                              'Google',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                          ],
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        'Akses Terbatas',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xFF1E3A8A),
+                                          fontSize: 12,
                                         ),
                                       ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 16),
-                              Expanded(
-                                child: Container(
-                                  height: 50,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.grey.withOpacity(0.3),
-                                    ),
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  child: Material(
-                                    color: Colors.transparent,
-                                    child: InkWell(
-                                      borderRadius: BorderRadius.circular(12),
-                                      onTap: () {
-                                        Get.snackbar(
-                                          'Coming Soon',
-                                          'Facebook login will be available soon!',
-                                          backgroundColor: Colors.blue,
-                                          colorText: Colors.white,
-                                        );
-                                      },
-                                      child: const Center(
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Icon(
-                                              Icons.facebook_rounded,
-                                              size: 24,
-                                            ),
-                                            SizedBox(width: 8),
-                                            Text(
-                                              'Facebook',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                          ],
+                                      const SizedBox(height: 4),
+                                      const Text(
+                                        'Login hanya untuk siswa, guru, dan staff SMK Assalaam Bandung',
+                                        style: TextStyle(
+                                          fontSize: 11,
+                                          color: Colors.grey,
                                         ),
                                       ),
-                                    ),
+                                    ],
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -427,26 +415,41 @@ class LoginView extends GetView {
 
                   const SizedBox(height: 32),
 
-                  // Register Link
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        "Don't have an account? ",
-                        style: TextStyle(color: Colors.white70),
-                      ),
-                      TextButton(
-                        onPressed: () => Get.toNamed('/auth/register'),
-                        child: const Text(
-                          'Create Account',
+                  // School Info
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.school_rounded,
+                          color: Color(0xFFFBBF24),
+                          size: 20,
+                        ),
+                        const SizedBox(width: 8),
+                        const Text(
+                          'SMK ASSALAAM BANDUNG',
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                            fontSize: 14,
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  // Contact Info
+                  const Text(
+                    'Butuh bantuan? Hubungi petugas perpustakaan',
+                    style: TextStyle(color: Colors.white70, fontSize: 12),
+                    textAlign: TextAlign.center,
                   ),
 
                   const SizedBox(height: 20),

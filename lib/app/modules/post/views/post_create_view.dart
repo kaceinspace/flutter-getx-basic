@@ -9,7 +9,7 @@ class CreatePostView extends StatelessWidget {
   final TextEditingController titleC = TextEditingController();
   final TextEditingController contentC = TextEditingController();
 
-  CreatePostView({Key? key}) : super(key: key);
+  CreatePostView({super.key});
 
   @override
   Widget build(BuildContext context) {
