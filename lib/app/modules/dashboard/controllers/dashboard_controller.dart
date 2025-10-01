@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:rpl1getx/app/data/models/dashboard.dart';
+import 'package:rpl1getx/app/data/models/latests_book.dart';
 import 'package:rpl1getx/app/services/dashboard_service.dart';
 
 class DashboardController extends GetxController {
@@ -9,9 +9,7 @@ class DashboardController extends GetxController {
   final box = GetStorage();
 
   // Observable data
-  Rx<Dashboard?> dashboardData = Rx<Dashboard?>(null);
   RxList<LatestBook> latestBooks = <LatestBook>[].obs;
-  Rx<Summary?> summary = Rx<Summary?>(null);
   RxList<dynamic> latestEbooks = <dynamic>[].obs;
   RxList<dynamic> latestVideos = <dynamic>[].obs;
 
@@ -22,9 +20,6 @@ class DashboardController extends GetxController {
   RxString errorMessage = ''.obs;
 
   // Computed properties untuk stats
-  int get totalBooks => summary.value?.totalBooks ?? 0;
-  int get totalEbooks => summary.value?.totalEbooks ?? 0;
-  int get totalVideos => summary.value?.totalVideos ?? 0;
   int get borrowedBooks => 3; // Placeholder
 
   @override

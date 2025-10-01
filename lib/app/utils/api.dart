@@ -6,7 +6,7 @@ class BaseUrl {
   static String logout = 'http://192.168.6.22:8000/api/logout';
 
   // User profile
-  static String profile = 'http://192.168.6.22:8000/api/user';
+  static String profile = 'http://192.168.6.22:8000/api/profile';
 
   // Dashboard endpoints - sesuai struktur backend
   static String dashboard = 'http://192.168.6.22:8000/api/dashboard';
@@ -16,8 +16,6 @@ class BaseUrl {
       'http://192.168.6.22:8000/api/dashboard/ebooks/latest';
   static String latestVideos =
       'http://192.168.6.22:8000/api/dashboard/videos/latest';
-  static String dashboardSummary =
-      'http://192.168.6.22:8000/api/dashboard/summary';
 
   // Posts endpoints (sesuai dengan yang lu punya)
   static String posts = 'http://192.168.6.22:8000/api/posts';

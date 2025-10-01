@@ -65,6 +65,36 @@ class ProfileView extends GetView<ProfileController> {
                     }
                     return const SizedBox.shrink();
                   }),
+
+                  // Error Message Display
+                  Obx(() {
+                    if (controller.errorMessage.value.isNotEmpty) {
+                      return Container(
+                        margin: const EdgeInsets.only(top: 20),
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.red.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: Colors.red.withOpacity(0.3),
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.error, color: Colors.red),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Text(
+                                controller.errorMessage.value,
+                                style: const TextStyle(color: Colors.red),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                    return const SizedBox.shrink();
+                  }),
                 ],
               ),
             ),
@@ -284,16 +314,18 @@ class ProfileView extends GetView<ProfileController> {
                     Expanded(
                       child: _buildStatusCard(
                         'Status',
-                        user['status'] == 1 ? 'Aktif' : 'Nonaktif',
-                        user['status'] == 1 ? Colors.green : Colors.red,
+                        controller.getStatusDisplayName(
+                          user['status']?.toString(),
+                        ),
+                        controller.getStatusColor(user['status']?.toString()),
                         Icons.verified_user_rounded,
                       ),
                     ),
                     const SizedBox(width: 16),
                     Expanded(
                       child: _buildStatusCard(
-                        'ID Kelas',
-                        '#${user['grade_id']?.toString() ?? '0'}',
+                        'Kelas',
+                        controller.getGradeName(),
                         const Color(0xFFFBBF24),
                         Icons.class_rounded,
                       ),
@@ -529,6 +561,10 @@ class ProfileView extends GetView<ProfileController> {
           const SizedBox(height: 20),
           _buildAccountInfo('ID Pengguna', '#${user['id']?.toString() ?? '0'}'),
           const SizedBox(height: 16),
+          _buildAccountInfo('Kelas', controller.getGradeName()),
+          const SizedBox(height: 16),
+          _buildAccountInfo('Tahun Ajaran', controller.getGradeSchoolYear()),
+          const SizedBox(height: 16),
           _buildAccountInfo(
             'Dibuat Pada',
             controller.formatDate(user['created_at']?.toString()),
@@ -537,13 +573,6 @@ class ProfileView extends GetView<ProfileController> {
           _buildAccountInfo(
             'Terakhir Diupdate',
             controller.formatDate(user['updated_at']?.toString()),
-          ),
-          const SizedBox(height: 16),
-          _buildAccountInfo(
-            'Status Email',
-            user['email_verified_at'] != null
-                ? 'Terverifikasi'
-                : 'Belum Terverifikasi',
           ),
         ],
       ),
@@ -555,12 +584,15 @@ class ProfileView extends GetView<ProfileController> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(label, style: const TextStyle(fontSize: 14, color: Colors.grey)),
-        Text(
-          value,
-          style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w600,
-            color: Color(0xFF1E3A8A),
+        Flexible(
+          child: Text(
+            value,
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: Color(0xFF1E3A8A),
+            ),
+            textAlign: TextAlign.right,
           ),
         ),
       ],

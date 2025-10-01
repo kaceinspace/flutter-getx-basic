@@ -21,7 +21,7 @@ class AuthController extends GetxController {
       final response = await api.login(email, password);
 
       if (response.statusCode == 200) {
-        final token = response.body['access_token'];
+        final token = response.body['token'];
         box.write('token', token);
 
         // Fix navigation - pake offAllNamed dengan proper route
