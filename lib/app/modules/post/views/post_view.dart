@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rpl1getx/app/modules/post/views/post_detail_view.dart';
-import 'package:rpl1getx/app/utils/api_helper.dart';
 
 import '../controllers/post_controller.dart';
 
 class PostView extends GetView<PostController> {
-  PostView({super.key});
-  @override
+  PostView({Key? key}) : super(key: key);
   final PostController controller = Get.put(PostController());
 
   @override
@@ -159,7 +157,7 @@ class PostView extends GetView<PostController> {
                       borderRadius: BorderRadius.circular(15),
                       child: post.foto != null && post.foto!.isNotEmpty
                           ? Image.network(
-                              ApiHelper.getImageUrl(post.foto),
+                              'http://127.0.0.1:8000/storage/${post.foto}',
                               fit: BoxFit.cover,
                               loadingBuilder:
                                   (context, child, loadingProgress) {

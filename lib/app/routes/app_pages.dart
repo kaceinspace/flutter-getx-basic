@@ -1,29 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:rpl1getx/app/data/models/post.dart';
-import 'package:rpl1getx/app/middlewares/auth_middleware.dart';
-import 'package:rpl1getx/app/modules/post/views/post_create_view.dart';
-import 'package:rpl1getx/app/modules/post/views/post_edit_view.dart';
 
+import 'package:get/get.dart';
+
+import '../data/models/post.dart';
+import '../middlewares/auth_middleware.dart';
 import '../modules/auth/bindings/auth_binding.dart';
 import '../modules/auth/views/auth_view.dart';
 import '../modules/auth/views/login_view.dart';
-import '../modules/auth/views/register_view.dart';
+import '../modules/book/bindings/book_binding.dart';
+import '../modules/book/views/book_view.dart';
 import '../modules/counter/bindings/counter_binding.dart';
 import '../modules/counter/views/counter_view.dart';
+import '../modules/dashboard/bindings/dashboard_binding.dart';
+import '../modules/dashboard/views/dashboard_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/post/bindings/post_binding.dart';
+import '../modules/post/views/post_create_view.dart';
+import '../modules/post/views/post_edit_view.dart';
 import '../modules/post/views/post_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
+import '../modules/splash/bindings/splash_binding.dart';
+import '../modules/splash/views/splash_view.dart';
+
+// import '../modules/auth/views/register_view.dart';
 
 part 'app_routes.dart';
 
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.HOME;
+  static const INITIAL = Routes.SPLASH;
 
   static final routes = [
     GetPage(
@@ -73,16 +81,31 @@ class AppPages {
       page: () => LoginView(),
       binding: AuthBinding(),
     ),
-    GetPage(
-      name: _Paths.REGISTER,
-      page: () => RegisterView(),
-      binding: AuthBinding(),
-    ),
+    // GetPage(
+    //   name: _Paths.REGISTER,
+    //   page: () => RegisterView(),
+    //   binding: AuthBinding(),
+    // ),
     GetPage(
       name: _Paths.PROFILE,
       page: () => ProfileView(),
       binding: ProfileBinding(),
       middlewares: [AuthMiddleware()],
+    ),
+    GetPage(
+      name: _Paths.SPLASH,
+      page: () => SplashView(),
+      binding: SplashBinding(),
+    ),
+    GetPage(
+      name: _Paths.DASHBOARD,
+      page: () => const DashboardView(),
+      binding: DashboardBinding(),
+    ),
+    GetPage(
+      name: _Paths.BOOK,
+      page: () => const BookView(),
+      binding: BookBinding(),
     ),
   ];
 }

@@ -1,5 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:rpl1getx/app/routes/app_pages.dart';
 import 'package:rpl1getx/app/services/auth_service.dart';
 
 class AuthController extends GetxController {
@@ -7,8 +9,6 @@ class AuthController extends GetxController {
   final box = GetStorage();
 
   RxBool isLoading = false.obs;
-  // your existing code
-
   RxBool isPasswordHidden = true.obs;
 
   void togglePasswordVisibility() {
@@ -19,32 +19,38 @@ class AuthController extends GetxController {
     try {
       isLoading(true);
       final response = await api.login(email, password);
+
       if (response.statusCode == 200) {
         final token = response.body['access_token'];
         box.write('token', token);
-        Get.offAllNamed('/home');
-      } else {
-        Get.snackbar('Error', response.statusText ?? 'Login failed');
-      }
-    } catch (e) {
-      Get.snackbar('Exception', e.toString());
-    } finally {
-      isLoading(false);
-    }
-  }
 
-  Future<void> register(String name, String email, String password) async {
-    try {
-      isLoading(true);
-      final response = await api.register(name, email, password);
-      if (response.statusCode == 201) {
-        Get.snackbar('Success', 'Registration successful. Please log in.');
-        Get.offAllNamed('/auth/login');
+        // Fix navigation - pake offAllNamed dengan proper route
+        Get.offAllNamed(Routes.HOME);
+
+        Get.snackbar(
+          'Berhasil',
+          'Login berhasil! Selamat datang di perpustakaan digital',
+          backgroundColor: const Color(0xFF10B981),
+          colorText: Colors.white,
+          snackPosition: SnackPosition.TOP,
+        );
       } else {
-        Get.snackbar('Error', response.statusText ?? 'Registration failed');
+        Get.snackbar(
+          'Gagal Login',
+          response.body['message'] ?? 'Email atau password salah',
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+          snackPosition: SnackPosition.TOP,
+        );
       }
     } catch (e) {
-      Get.snackbar('Exception', e.toString());
+      Get.snackbar(
+        'Error',
+        'Terjadi kesalahan: ${e.toString()}',
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        snackPosition: SnackPosition.TOP,
+      );
     } finally {
       isLoading(false);
     }
@@ -54,17 +60,30 @@ class AuthController extends GetxController {
     try {
       isLoading(true);
       final token = box.read('token');
+
       if (token != null) {
-        final response = await api.logout(token);
-        if (response.statusCode == 200) {
-          box.remove('token');
-          Get.offAllNamed('/auth/login');
-        } else {
-          Get.snackbar('Error', response.statusText ?? 'Logout failed');
-        }
+        await api.logout(token);
+        box.remove('token');
       }
+
+      // Clear semua controller yang mungkin cached
+      Get.reset();
+
+      // Navigate ke login
+      Get.offAllNamed(Routes.LOGIN);
+
+      Get.snackbar(
+        'Logout',
+        'Anda telah keluar dari sistem',
+        backgroundColor: const Color(0xFF6B7280),
+        colorText: Colors.white,
+        snackPosition: SnackPosition.TOP,
+      );
     } catch (e) {
-      Get.snackbar('Exception', e.toString());
+      // Tetap logout meski API gagal
+      box.remove('token');
+      Get.reset();
+      Get.offAllNamed(Routes.LOGIN);
     } finally {
       isLoading(false);
     }

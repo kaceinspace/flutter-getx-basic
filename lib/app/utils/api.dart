@@ -1,0 +1,51 @@
+class BaseUrl {
+  // Auth endpoints
+  static String login = 'http://192.168.6.22:8000/api/login';
+  // static String register =
+  // 'http://192.168.6.22:8000/api/register';
+  static String logout = 'http://192.168.6.22:8000/api/logout';
+
+  // User profile
+  static String profile = 'http://192.168.6.22:8000/api/user';
+
+  // Dashboard endpoints - sesuai struktur backend
+  static String dashboard = 'http://192.168.6.22:8000/api/dashboard';
+  static String latestBooks =
+      'http://192.168.6.22:8000/api/dashboard/latest-books';
+  static String latestEbooks =
+      'http://192.168.6.22:8000/api/dashboard/ebooks/latest';
+  static String latestVideos =
+      'http://192.168.6.22:8000/api/dashboard/videos/latest';
+  static String dashboardSummary =
+      'http://192.168.6.22:8000/api/dashboard/summary';
+
+  // Posts endpoints (sesuai dengan yang lu punya)
+  static String posts = 'http://192.168.6.22:8000/api/posts';
+  static String createPost = 'http://192.168.6.22:8000/api/posts';
+  static String updatePost = 'http://192.168.6.22:8000/api/posts';
+  static String deletePost = 'http://192.168.6.22:8000/api/posts';
+
+  // Storage URL untuk gambar
+  static String storageUrl = 'http://192.168.6.22:8000/storage';
+
+  // Headers
+  static Map<String, String> defaultHeaders = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+  };
+
+  // Headers with auth token
+  static Map<String, String> authHeaders(String token) => {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer $token',
+  };
+
+  // Status codes
+  static int success = 200;
+  static int created = 201;
+  static int badRequest = 400;
+  static int unauthorized = 401;
+  static int notFound = 404;
+  static int serverError = 500;
+}

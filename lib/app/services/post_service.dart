@@ -1,24 +1,27 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import '../utils/constants.dart';
+import '../utils/api.dart';
 import '../utils/api_helper.dart';
 
 class PostService extends GetConnect {
   @override
   void onInit() {
-    httpClient.baseUrl = ApiConstants.baseUrl;
     httpClient.defaultContentType = 'application/json';
+    httpClient.addRequestModifier<dynamic>((request) {
+      request.headers.addAll(BaseUrl.defaultHeaders);
+      return request;
+    });
     super.onInit();
   }
 
   Future<Response> fetchPosts() async {
     try {
-      return await get(ApiConstants.posts, headers: ApiHelper.getAuthHeaders());
+      return await get(BaseUrl.posts, headers: ApiHelper.getAuthHeaders());
     } catch (e) {
       return Response(
-        statusCode: ApiConstants.serverError,
-        statusText: "Exception: $e",
+        statusCode: BaseUrl.serverError,
+        statusText: 'Network Error: ${e.toString()}',
       );
     }
   }
@@ -33,25 +36,21 @@ class PostService extends GetConnect {
       'content': data['content'],
       'status': data['status'].toString(),
       if (kIsWeb && imageBytes != null)
-        'foto': MultipartFile(
-          imageBytes,
-          filename: 'upload.png',
-          contentType: 'image/png',
-        ),
+        'foto': MultipartFile(imageBytes, filename: 'image.jpg'),
       if (!kIsWeb && image != null)
         'foto': MultipartFile(image, filename: image.path.split('/').last),
     });
 
     try {
       return await post(
-        ApiConstants.posts,
+        BaseUrl.createPost,
         form,
         headers: ApiHelper.getAuthHeaders(),
       );
     } catch (e) {
       return Response(
-        statusCode: ApiConstants.serverError,
-        statusText: "Exception: $e",
+        statusCode: BaseUrl.serverError,
+        statusText: 'Network Error: ${e.toString()}',
       );
     }
   }
@@ -68,25 +67,21 @@ class PostService extends GetConnect {
       'status': data['status'].toString(),
       '_method': 'PUT',
       if (kIsWeb && imageBytes != null)
-        'foto': MultipartFile(
-          imageBytes,
-          filename: 'upload.png',
-          contentType: 'image/png',
-        ),
+        'foto': MultipartFile(imageBytes, filename: 'image.jpg'),
       if (!kIsWeb && image != null)
         'foto': MultipartFile(image, filename: image.path.split('/').last),
     });
 
     try {
       return await post(
-        '${ApiConstants.posts}/$id',
+        '${BaseUrl.updatePost}/$id',
         form,
         headers: ApiHelper.getAuthHeaders(),
       );
     } catch (e) {
       return Response(
-        statusCode: ApiConstants.serverError,
-        statusText: "Exception: $e",
+        statusCode: BaseUrl.serverError,
+        statusText: 'Network Error: ${e.toString()}',
       );
     }
   }
@@ -94,13 +89,13 @@ class PostService extends GetConnect {
   Future<Response> deletePost(int id) async {
     try {
       return await delete(
-        '${ApiConstants.posts}/$id',
+        '${BaseUrl.deletePost}/$id',
         headers: ApiHelper.getAuthHeaders(),
       );
     } catch (e) {
       return Response(
-        statusCode: ApiConstants.serverError,
-        statusText: "Exception: $e",
+        statusCode: BaseUrl.serverError,
+        statusText: 'Network Error: ${e.toString()}',
       );
     }
   }
