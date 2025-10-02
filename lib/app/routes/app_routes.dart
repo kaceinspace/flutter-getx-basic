@@ -15,6 +15,8 @@ abstract class Routes {
   static const SPLASH = _Paths.SPLASH;
   static const DASHBOARD = _Paths.DASHBOARD;
   static const BOOK = _Paths.BOOK;
+  static const LATESTBOOK = _Paths.LATESTBOOK;
+  static const LATEST_BOOK = _Paths.LATEST_BOOK;
 }
 
 abstract class _Paths {
@@ -31,4 +33,6 @@ abstract class _Paths {
   static const SPLASH = '/splash';
   static const DASHBOARD = '/dashboard';
   static const BOOK = '/book';
+  static const LATESTBOOK = '/latestbook';
+  static const LATEST_BOOK = '/latest-book';
 }

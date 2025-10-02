@@ -36,6 +36,10 @@ class DashboardView extends GetView<DashboardController> {
                     _buildHeader(pController, dController),
                     const SizedBox(height: 20),
 
+                    // Profile Card - NEW
+                    _buildProfileCard(pController),
+                    const SizedBox(height: 20),
+
                     // Search Section
                     _buildSearchSection(),
                     const SizedBox(height: 20),
@@ -56,6 +60,172 @@ class DashboardView extends GetView<DashboardController> {
               ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  // NEW: Profile Card Widget
+  Widget _buildProfileCard(ProfileController pController) {
+    return GestureDetector(
+      onTap: () => Get.toNamed('/profile'),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 15,
+              offset: const Offset(0, 5),
+            ),
+          ],
+          border: Border.all(
+            color: const Color(0xFF1E3A8A).withOpacity(0.1),
+            width: 1,
+          ),
+        ),
+        child: Row(
+          children: [
+            // Avatar
+            Container(
+              width: 60,
+              height: 60,
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [Color(0xFF1E3A8A), Color(0xFF3B82F6)],
+                ),
+                borderRadius: BorderRadius.circular(30),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFF1E3A8A).withOpacity(0.3),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Obx(() {
+                final user = pController.userProfile.value;
+                String initials = '';
+
+                if (user['name'] != null &&
+                    user['name'].toString().isNotEmpty) {
+                  final nameParts = user['name'].toString().split(' ');
+                  if (nameParts.isNotEmpty) {
+                    initials = nameParts[0][0].toUpperCase();
+                    if (nameParts.length > 1) {
+                      initials += nameParts[1][0].toUpperCase();
+                    }
+                  }
+                } else {
+                  initials = 'U'; // Default initial
+                }
+
+                return Center(
+                  child: Text(
+                    initials,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                );
+              }),
+            ),
+
+            const SizedBox(width: 16),
+
+            // Profile Info
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.person_rounded,
+                        color: Color(0xFF1E3A8A),
+                        size: 16,
+                      ),
+                      const SizedBox(width: 6),
+                      const Text(
+                        'Profil Saya',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Color(0xFF1E3A8A),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  Obx(() {
+                    final user = pController.userProfile.value;
+                    return Text(
+                      user['name']?.toString() ?? 'User',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF1E3A8A),
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    );
+                  }),
+                  const SizedBox(height: 2),
+                  Obx(() {
+                    final user = pController.userProfile.value;
+                    return Text(
+                      user['email']?.toString() ?? 'user@example.com',
+                      style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                      overflow: TextOverflow.ellipsis,
+                    );
+                  }),
+                  const SizedBox(height: 6),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 3,
+                    ),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF10B981).withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Text(
+                      'Anggota Aktif',
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: Color(0xFF10B981),
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            // Action Icons
+            Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF1E3A8A).withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    color: Color(0xFF1E3A8A),
+                    size: 16,
+                  ),
+                ),
+                const SizedBox(height: 8),
+              ],
+            ),
+          ],
         ),
       ),
     );
@@ -82,7 +252,7 @@ class DashboardView extends GetView<DashboardController> {
                   Obx(() {
                     final user = pController.userProfile.value;
                     return Text(
-                      user['name']?.toString() ?? 'SMK ASSALAAM BANDUNG',
+                      'Selamat datang, ${user['name']?.toString().split(' ')[0] ?? 'User'}!',
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 20,
@@ -96,6 +266,45 @@ class DashboardView extends GetView<DashboardController> {
             ),
             Row(
               children: [
+                // Profile Avatar Button
+                GestureDetector(
+                  onTap: () => Get.toNamed('/profile'),
+                  child: Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: Colors.white.withOpacity(0.3),
+                        width: 2,
+                      ),
+                    ),
+                    child: Obx(() {
+                      final user = pController.userProfile.value;
+                      String initial = '';
+
+                      if (user['name'] != null &&
+                          user['name'].toString().isNotEmpty) {
+                        initial = user['name'].toString()[0].toUpperCase();
+                      } else {
+                        initial = 'U';
+                      }
+
+                      return Center(
+                        child: Text(
+                          initial,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      );
+                    }),
+                  ),
+                ),
+                const SizedBox(width: 8),
                 // Refresh button
                 _buildHeaderIcon(
                   Icons.refresh_rounded,
@@ -105,12 +314,7 @@ class DashboardView extends GetView<DashboardController> {
                 // Notification button
                 _buildHeaderIcon(
                   Icons.notifications_rounded,
-                  () => Get.snackbar(
-                    'Notifikasi',
-                    'Belum ada notifikasi baru',
-                    backgroundColor: const Color(0xFF1E3A8A),
-                    colorText: Colors.white,
-                  ),
+                  () => _showNotifications(),
                 ),
               ],
             ),
@@ -161,6 +365,141 @@ class DashboardView extends GetView<DashboardController> {
           borderRadius: BorderRadius.circular(12),
         ),
         child: Icon(icon, color: Colors.white, size: 20),
+      ),
+    );
+  }
+
+  // Enhanced Notification Function
+  void _showNotifications() {
+    Get.bottomSheet(
+      Container(
+        padding: const EdgeInsets.all(20),
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 40,
+              height: 4,
+              decoration: BoxDecoration(
+                color: Colors.grey[300],
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            const SizedBox(height: 20),
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF1E3A8A).withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const Icon(
+                    Icons.notifications_rounded,
+                    color: Color(0xFF1E3A8A),
+                    size: 24,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                const Expanded(
+                  child: Text(
+                    'Notifikasi',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF1E3A8A),
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFEF4444).withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const Text(
+                    '0',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Color(0xFFEF4444),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.grey[50],
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.grey[200]!),
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.notifications_off_rounded,
+                    color: Colors.grey[400],
+                    size: 32,
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Tidak ada notifikasi',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          'Semua notifikasi akan muncul di sini',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey[500],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 20),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () => Get.back(),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF1E3A8A),
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: const Text(
+                  'Tutup',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -327,6 +666,8 @@ class DashboardView extends GetView<DashboardController> {
     );
   }
 
+  // ... rest of the methods remain the same (menu grid, latest books, etc.)
+
   Widget _buildMenuGrid() {
     return Container(
       padding: const EdgeInsets.all(16),
@@ -373,7 +714,7 @@ class DashboardView extends GetView<DashboardController> {
                   'Buku terbaru dari koleksi',
                   Icons.new_releases_rounded,
                   const Color(0xFF10B981),
-                  () => _showMenuDetail('Latest Buku'),
+                  () => Get.toNamed('/latest-book'),
                 ),
               ),
               const SizedBox(width: 12),
@@ -673,7 +1014,7 @@ class DashboardView extends GetView<DashboardController> {
                 ],
               ),
               TextButton(
-                onPressed: () => _showMenuDetail('Semua Buku Terbaru'),
+                onPressed: () => Get.toNamed('/latest-book'),
                 child: const Text(
                   'Lihat Semua',
                   style: TextStyle(
@@ -701,6 +1042,7 @@ class DashboardView extends GetView<DashboardController> {
     );
   }
 
+  // ... rest of the existing methods remain the same
   Widget _buildDemoBookCard(int index) {
     final List<Map<String, dynamic>> demoBooks = [
       {

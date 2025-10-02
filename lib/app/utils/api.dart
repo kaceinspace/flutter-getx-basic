@@ -9,16 +9,16 @@ class BaseUrl {
   static String profile = 'http://192.168.6.22:8000/api/profile';
 
   // Dashboard endpoints - sesuai struktur backend
-  static String dashboard = 'http://192.168.6.22:8000/api/dashboard';
-  static String latestBooks =
-      'http://192.168.6.22:8000/api/dashboard/latest-books';
-  static String latestEbooks =
-      'http://192.168.6.22:8000/api/dashboard/ebooks/latest';
-  static String latestVideos =
-      'http://192.168.6.22:8000/api/dashboard/videos/latest';
+  static String latestBooks = 'http://192.168.6.22:8000/api/books/latest';
+  static String allBooks = 'http://192.168.6.22:8000/api/books';
+  static String bookDetail =
+      'http://192.168.6.22:8000/api/books/detail'; // + /{id}
+  static String searchBooks = 'http://192.168.6.22:8000/api/books/search';
+  static String categories = 'http://192.168.6.22:8000/api/books/categories';
+  static String bookshelves = 'http://192.168.6.22:8000/api/books/bookshelves';
 
   // Posts endpoints (sesuai dengan yang lu punya)
-  static String posts = 'http://192.168.6.22:8000/api/posts';
+  static String posts = 'http://192.168.6.22:8000/api/lates';
   static String createPost = 'http://192.168.6.22:8000/api/posts';
   static String updatePost = 'http://192.168.6.22:8000/api/posts';
   static String deletePost = 'http://192.168.6.22:8000/api/posts';

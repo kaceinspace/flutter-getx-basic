@@ -13,8 +13,9 @@ import '../modules/counter/bindings/counter_binding.dart';
 import '../modules/counter/views/counter_view.dart';
 import '../modules/dashboard/bindings/dashboard_binding.dart';
 import '../modules/dashboard/views/dashboard_view.dart';
-import '../modules/home/bindings/home_binding.dart';
-import '../modules/home/views/home_view.dart';
+
+import '../modules/latest_book/bindings/latest_book_binding.dart';
+import '../modules/latest_book/views/latest_book_view.dart';
 import '../modules/post/bindings/post_binding.dart';
 import '../modules/post/views/post_create_view.dart';
 import '../modules/post/views/post_edit_view.dart';
@@ -34,12 +35,6 @@ class AppPages {
   static const INITIAL = Routes.SPLASH;
 
   static final routes = [
-    GetPage(
-      name: _Paths.HOME,
-      page: () => HomeView(),
-      binding: HomeBinding(),
-      middlewares: [AuthMiddleware()],
-    ),
     GetPage(
       name: _Paths.COUNTER,
       page: () => CounterView(),
@@ -106,6 +101,11 @@ class AppPages {
       name: _Paths.BOOK,
       page: () => const BookView(),
       binding: BookBinding(),
+    ),
+    GetPage(
+      name: _Paths.LATEST_BOOK,
+      page: () => LatestBookView(),
+      binding: LatestBookBinding(),
     ),
   ];
 }
