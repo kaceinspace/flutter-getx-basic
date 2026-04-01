@@ -12,8 +12,8 @@ class BottomMenuView extends GetView<BottomMenuController> {
   @override
   Widget build(BuildContext context) {
     final pages = <Widget>[
-      const HomeView(),
       const DashboardView(),
+      const HomeView(),
       const _CartPlaceholder(),
       const ProfileView(),
     ];

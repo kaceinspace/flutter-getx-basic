@@ -6,6 +6,14 @@ class BaseUrl {
   static String login = '$_base/api/login';
   static String logout = '$_base/api/logout';
   static String profile = '$_base/api/profile';
+
+  // Library endpoints
+  static String home = '$_base/api/home';
+  static String categories = '$_base/api/categories';
+  static String latestBooks = '$_base/api/books/latest';
+  static String books = '$_base/api/books';
+  static String borrowHistory = '$_base/api/borrows/history';
+
   // Storage URL untuk gambar
   static String storageUrl = '$_base/storage';
 
