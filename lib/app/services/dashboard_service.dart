@@ -26,4 +26,18 @@ class DashboardService extends GetConnect {
       );
     }
   }
+
+  Future<Response> fetchHome() async {
+    try {
+      return await get(
+        BaseUrl.home,
+        headers: ApiHelper.getAuthHeaders(),
+      );
+    } catch (e) {
+      return Response(
+        statusCode: BaseUrl.serverError,
+        statusText: 'Network Error: ${e.toString()}',
+      );
+    }
+  }
 }

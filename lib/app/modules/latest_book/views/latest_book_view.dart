@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rpl1getx/app/data/models/latests_book.dart';
+import 'package:rpl1getx/app/routes/app_pages.dart';
 import '../controllers/latest_book_controller.dart';
 
 class LatestBookView extends GetView<LatestBookController> {
@@ -184,7 +185,7 @@ class LatestBookView extends GetView<LatestBookController> {
 
   Widget _buildBookCard(DataLatestBook book, LatestBookController controller) {
     return GestureDetector(
-      onTap: () => _showBookDetail(book, controller),
+      onTap: () => Get.toNamed(Routes.BOOK_DETAIL, arguments: book.slug),
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,

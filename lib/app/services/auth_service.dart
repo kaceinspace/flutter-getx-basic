@@ -6,6 +6,8 @@ class AuthService extends GetConnect {
   @override
   void onInit() {
     httpClient.defaultContentType = 'application/json';
+    httpClient.baseUrl = BaseUrl.base;
+    httpClient.timeout = const Duration(seconds: 30);
     httpClient.addRequestModifier<dynamic>((request) {
       request.headers.addAll(BaseUrl.defaultHeaders);
       return request;
@@ -14,7 +16,10 @@ class AuthService extends GetConnect {
   }
 
   Future<Response> login(String email, String password) {
-    return post(BaseUrl.login, {'email': email, 'password': password});
+    return post(BaseUrl.login, {
+      'email': email,
+      'password': password,
+    }, headers: BaseUrl.defaultHeaders);
   }
 
   // Future<Response> register(String name, String email, String password) {

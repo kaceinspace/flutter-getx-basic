@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rpl1getx/app/data/models/latests_book.dart';
 import 'package:rpl1getx/app/modules/profile/controllers/profile_controller.dart';
+import 'package:rpl1getx/app/routes/app_pages.dart';
 import '../controllers/dashboard_controller.dart';
 
 class DashboardView extends GetView<DashboardController> {
@@ -582,35 +583,37 @@ class DashboardView extends GetView<DashboardController> {
   }
 
   Widget _buildStatsSection(DashboardController controller) {
-    return Row(
-      children: [
-        Expanded(
-          child: _buildStatCard(
-            'Total Buku',
-            '2,456',
-            Icons.library_books_rounded,
-            const Color(0xFF10B981),
+    return Obx(
+      () => Row(
+        children: [
+          Expanded(
+            child: _buildStatCard(
+              'Total Buku',
+              '${controller.totalBooks.value}',
+              Icons.library_books_rounded,
+              const Color(0xFF10B981),
+            ),
           ),
-        ),
-        const SizedBox(width: 8),
-        Expanded(
-          child: _buildStatCard(
-            'E-Books',
-            '842',
-            Icons.tablet_mac_rounded,
-            const Color(0xFF8B5CF6),
+          const SizedBox(width: 8),
+          Expanded(
+            child: _buildStatCard(
+              'E-Books',
+              '${controller.totalPdfs.value}',
+              Icons.tablet_mac_rounded,
+              const Color(0xFF8B5CF6),
+            ),
           ),
-        ),
-        const SizedBox(width: 8),
-        Expanded(
-          child: _buildStatCard(
-            'Video',
-            '156',
-            Icons.play_circle_rounded,
-            const Color(0xFFEF4444),
+          const SizedBox(width: 8),
+          Expanded(
+            child: _buildStatCard(
+              'Video',
+              '${controller.totalVideos.value}',
+              Icons.play_circle_rounded,
+              const Color(0xFFEF4444),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -724,7 +727,7 @@ class DashboardView extends GetView<DashboardController> {
                   'Katalog lengkap perpustakaan',
                   Icons.library_books_rounded,
                   const Color(0xFF1E3A8A),
-                  () => _showMenuDetail('Semua Buku'),
+                  () => Get.toNamed('/latest-book'),
                 ),
               ),
             ],
@@ -741,7 +744,7 @@ class DashboardView extends GetView<DashboardController> {
                   'Lokasi dan penempatan buku',
                   Icons.shelves,
                   const Color(0xFFF59E0B),
-                  () => _showMenuDetail('Rak Buku'),
+                  () => Get.toNamed(Routes.CATEGORIES, arguments: 'bookshelf'),
                 ),
               ),
               const SizedBox(width: 12),
@@ -751,7 +754,7 @@ class DashboardView extends GetView<DashboardController> {
                   'Klasifikasi buku berdasarkan topik',
                   Icons.category_rounded,
                   const Color(0xFF8B5CF6),
-                  () => _showMenuDetail('Kategori'),
+                  () => Get.toNamed(Routes.CATEGORIES),
                 ),
               ),
             ],
@@ -768,7 +771,7 @@ class DashboardView extends GetView<DashboardController> {
                   'Koleksi e-book format PDF',
                   Icons.picture_as_pdf_rounded,
                   const Color(0xFFEF4444),
-                  () => _showMenuDetail('PDF Digital'),
+                  () => Get.toNamed(Routes.CONTENT, arguments: 'pdf'),
                 ),
               ),
               const SizedBox(width: 12),
@@ -778,7 +781,7 @@ class DashboardView extends GetView<DashboardController> {
                   'Video pembelajaran interaktif',
                   Icons.play_circle_rounded,
                   const Color(0xFF06B6D4),
-                  () => _showMenuDetail('Video Learning'),
+                  () => Get.toNamed(Routes.CONTENT, arguments: 'video'),
                 ),
               ),
             ],
@@ -786,7 +789,7 @@ class DashboardView extends GetView<DashboardController> {
 
           const SizedBox(height: 12),
 
-          // Fourth Row - Search & Favorites
+          // Fourth Row - Search & Cart
           Row(
             children: [
               Expanded(
@@ -802,11 +805,11 @@ class DashboardView extends GetView<DashboardController> {
               const SizedBox(width: 12),
               Expanded(
                 child: _buildMenuCard(
-                  'Favorit',
-                  'Buku yang disimpan',
-                  Icons.favorite_rounded,
+                  'Keranjang',
+                  'Buku untuk dipinjam',
+                  Icons.shopping_cart_rounded,
                   const Color(0xFFEC4899),
-                  () => _showMenuDetail('Favorit'),
+                  () => Get.toNamed(Routes.CART),
                 ),
               ),
             ],
@@ -823,27 +826,27 @@ class DashboardView extends GetView<DashboardController> {
                   'History peminjaman',
                   Icons.history_rounded,
                   const Color(0xFF64748B),
-                  () => _showMenuDetail('Riwayat'),
+                  () => Get.toNamed(Routes.BORROW_HISTORY),
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: _buildMenuCard(
-                  'Pinjaman',
+                  'Profil',
+                  'Informasi akun saya',
+                  Icons.person_rounded,
+                  const Color(0xFF059669),
+                  () => Get.toNamed(Routes.PROFILE),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: _buildMenuCard(
+                  'Peminjaman',
                   'Buku yang sedang dipinjam',
                   Icons.bookmark_rounded,
-                  const Color(0xFF059669),
-                  () => _showMenuDetail('Pinjaman'),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: _buildMenuCard(
-                  'Reservasi',
-                  'Booking buku untuk dipinjam',
-                  Icons.event_available_rounded,
                   const Color(0xFFD97706),
-                  () => _showMenuDetail('Reservasi'),
+                  () => Get.toNamed(Routes.BORROW_HISTORY),
                 ),
               ),
             ],

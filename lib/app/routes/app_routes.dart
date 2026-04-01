@@ -12,11 +12,17 @@ abstract class Routes {
   static const LOGIN = _Paths.LOGIN;
   static const REGISTER = _Paths.REGISTER;
   static const PROFILE = _Paths.PROFILE;
+  static const PROFILE_EDIT = _Paths.PROFILE_EDIT;
   static const SPLASH = _Paths.SPLASH;
   static const DASHBOARD = _Paths.DASHBOARD;
   static const BOOK = _Paths.BOOK;
   static const LATESTBOOK = _Paths.LATESTBOOK;
   static const LATEST_BOOK = _Paths.LATEST_BOOK;
+  static const BOOK_DETAIL = _Paths.BOOK_DETAIL;
+  static const CART = _Paths.CART;
+  static const BORROW_HISTORY = _Paths.BORROW_HISTORY;
+  static const CONTENT = _Paths.CONTENT;
+  static const CATEGORIES = _Paths.CATEGORIES;
 }
 
 abstract class _Paths {
@@ -30,9 +36,15 @@ abstract class _Paths {
   static const LOGIN = '/auth/login';
   static const REGISTER = '/auth/register';
   static const PROFILE = '/profile';
+  static const PROFILE_EDIT = '/profile/edit';
   static const SPLASH = '/splash';
   static const DASHBOARD = '/dashboard';
   static const BOOK = '/book';
   static const LATESTBOOK = '/latestbook';
   static const LATEST_BOOK = '/latest-book';
+  static const BOOK_DETAIL = '/book/detail';
+  static const CART = '/cart';
+  static const BORROW_HISTORY = '/borrow-history';
+  static const CONTENT = '/content';
+  static const CATEGORIES = '/categories';
 }

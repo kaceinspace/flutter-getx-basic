@@ -5,7 +5,7 @@ import 'package:rpl1getx/app/routes/app_pages.dart';
 import 'package:rpl1getx/app/services/auth_service.dart';
 
 class AuthController extends GetxController {
-  final AuthService api = AuthService();
+  final AuthService api = Get.put(AuthService());
   final box = GetStorage();
 
   RxBool isLoading = false.obs;
@@ -21,7 +21,18 @@ class AuthController extends GetxController {
       final response = await api.login(email, password);
 
       if (response.statusCode == 200) {
-        final token = response.body['token'];
+        final body = response.body;
+        final token = body['data']?['token'] ?? body['token'];
+        if (token == null || token.toString().isEmpty) {
+          Get.snackbar(
+            'Error',
+            'Token tidak ditemukan dalam response',
+            backgroundColor: Colors.red,
+            colorText: Colors.white,
+            snackPosition: SnackPosition.TOP,
+          );
+          return;
+        }
         box.write('token', token);
 
         // Fix navigation - pake offAllNamed dengan proper route
@@ -35,9 +46,12 @@ class AuthController extends GetxController {
           snackPosition: SnackPosition.TOP,
         );
       } else {
+        final msg = response.body is Map
+            ? (response.body['message'] ?? 'Email atau password salah')
+            : 'Email atau password salah';
         Get.snackbar(
           'Gagal Login',
-          response.body['message'] ?? 'Email atau password salah',
+          msg,
           backgroundColor: Colors.red,
           colorText: Colors.white,
           snackPosition: SnackPosition.TOP,

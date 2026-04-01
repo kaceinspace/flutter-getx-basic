@@ -1,30 +1,57 @@
 class BaseUrl {
+  static const String _base = 'http://10.0.2.2:8000';
+  static String get base => _base;
+
   // Auth endpoints
-  static String login = 'http://192.168.6.22:8000/api/login';
-  // static String register =
-  // 'http://192.168.6.22:8000/api/register';
-  static String logout = 'http://192.168.6.22:8000/api/logout';
+  static String login = '$_base/api/login';
+  static String logout = '$_base/api/logout';
 
   // User profile
-  static String profile = 'http://192.168.6.22:8000/api/profile';
+  static String profile = '$_base/api/profile';
+  static String updateProfile = '$_base/api/profile';
+  static String updatePassword = '$_base/api/profile/password';
 
-  // Dashboard endpoints - sesuai struktur backend
-  static String latestBooks = 'http://192.168.6.22:8000/api/books/latest';
-  static String allBooks = 'http://192.168.6.22:8000/api/books';
-  static String bookDetail =
-      'http://192.168.6.22:8000/api/books/detail'; // + /{id}
-  static String searchBooks = 'http://192.168.6.22:8000/api/books/search';
-  static String categories = 'http://192.168.6.22:8000/api/books/categories';
-  static String bookshelves = 'http://192.168.6.22:8000/api/books/bookshelves';
+  // Home / Dashboard
+  static String home = '$_base/api/home';
 
-  // Posts endpoints (sesuai dengan yang lu punya)
-  static String posts = 'http://192.168.6.22:8000/api/lates';
-  static String createPost = 'http://192.168.6.22:8000/api/posts';
-  static String updatePost = 'http://192.168.6.22:8000/api/posts';
-  static String deletePost = 'http://192.168.6.22:8000/api/posts';
+  // Books endpoints
+  static String latestBooks = '$_base/api/books/latest';
+  static String allBooks = '$_base/api/books';
+  static String bookDetail = '$_base/api/books/detail'; // + /{slug}
+  static String searchBooks = '$_base/api/books/search';
+  static String filterByCategory = '$_base/api/books/category'; // + /{slug}
+  static String filterByBookshelf = '$_base/api/books/bookshelf'; // + /{slug}
+
+  // Categories & Bookshelves
+  static String categories = '$_base/api/categories';
+  static String bookshelves = '$_base/api/bookshelves';
+
+  // Cart endpoints
+  static String cart = '$_base/api/cart';
+  static String cartAdd = '$_base/api/cart/add'; // + /{bookId}
+  static String cartUpdate = '$_base/api/cart/update'; // + /{id}
+  static String cartDelete = '$_base/api/cart/delete'; // + /{id}
+
+  // Borrow endpoints
+  static String borrow = '$_base/api/borrow';
+  static String borrowHistory = '$_base/api/borrows/history';
+
+  // Content (PDF & Video)
+  static String pdfs = '$_base/api/pdfs';
+  static String videos = '$_base/api/videos';
+
+  // Reading Bookmarks
+  static String bookmarkSave = '$_base/api/bookmarks/save';
+  static String bookmarkGet = '$_base/api/bookmarks'; // + /{contentId}
+
+  // Posts endpoints
+  static String posts = '$_base/api/lates';
+  static String createPost = '$_base/api/posts';
+  static String updatePost = '$_base/api/posts';
+  static String deletePost = '$_base/api/posts';
 
   // Storage URL untuk gambar
-  static String storageUrl = 'http://192.168.6.22:8000/storage';
+  static String storageUrl = '$_base/storage';
 
   // Headers
   static Map<String, String> defaultHeaders = {

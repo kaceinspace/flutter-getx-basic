@@ -169,32 +169,59 @@ class LoginView extends GetView {
                           const SizedBox(height: 32),
 
                           // Email Field
-                          Container(
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFF8FAFC),
-                              borderRadius: BorderRadius.circular(15),
-                              border: Border.all(
-                                color: const Color(0xFF1E3A8A).withOpacity(0.1),
-                                width: 1.5,
-                              ),
-                            ),
-                            child: TextFormField(
+                          TextFormField(
                               controller: emailC,
                               keyboardType: TextInputType.emailAddress,
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                 labelText: 'Email / NIS',
                                 hintText: 'Masukkan email atau NIS',
-                                prefixIcon: Icon(
+                                prefixIcon: const Icon(
                                   Icons.account_circle_rounded,
                                   color: Color(0xFF1E3A8A),
                                 ),
-                                border: InputBorder.none,
-                                contentPadding: EdgeInsets.all(16),
-                                labelStyle: TextStyle(
+                                filled: true,
+                                fillColor: const Color(0xFFF8FAFC),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  borderSide: BorderSide(
+                                    color: const Color(0xFF1E3A8A).withOpacity(0.1),
+                                    width: 1.5,
+                                  ),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  borderSide: BorderSide(
+                                    color: const Color(0xFF1E3A8A).withOpacity(0.1),
+                                    width: 1.5,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  borderSide: const BorderSide(
+                                    color: Color(0xFF1E3A8A),
+                                    width: 2,
+                                  ),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  borderSide: const BorderSide(
+                                    color: Colors.red,
+                                    width: 1.5,
+                                  ),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  borderSide: const BorderSide(
+                                    color: Colors.red,
+                                    width: 2,
+                                  ),
+                                ),
+                                contentPadding: const EdgeInsets.all(16),
+                                labelStyle: const TextStyle(
                                   color: Color(0xFF1E3A8A),
                                   fontWeight: FontWeight.w500,
                                 ),
-                                hintStyle: TextStyle(color: Colors.grey),
+                                hintStyle: const TextStyle(color: Colors.grey),
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
@@ -203,24 +230,12 @@ class LoginView extends GetView {
                                 return null;
                               },
                             ),
-                          ),
 
                           const SizedBox(height: 20),
 
                           // Password Field
                           Obx(
-                            () => Container(
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFF8FAFC),
-                                borderRadius: BorderRadius.circular(15),
-                                border: Border.all(
-                                  color: const Color(
-                                    0xFF1E3A8A,
-                                  ).withOpacity(0.1),
-                                  width: 1.5,
-                                ),
-                              ),
-                              child: TextFormField(
+                            () => TextFormField(
                                 controller: passwordC,
                                 obscureText: c.isPasswordHidden.value,
                                 decoration: InputDecoration(
@@ -239,7 +254,43 @@ class LoginView extends GetView {
                                     ),
                                     onPressed: c.togglePasswordVisibility,
                                   ),
-                                  border: InputBorder.none,
+                                  filled: true,
+                                  fillColor: const Color(0xFFF8FAFC),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                    borderSide: BorderSide(
+                                      color: const Color(0xFF1E3A8A).withOpacity(0.1),
+                                      width: 1.5,
+                                    ),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                    borderSide: BorderSide(
+                                      color: const Color(0xFF1E3A8A).withOpacity(0.1),
+                                      width: 1.5,
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                    borderSide: const BorderSide(
+                                      color: Color(0xFF1E3A8A),
+                                      width: 2,
+                                    ),
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                    borderSide: const BorderSide(
+                                      color: Colors.red,
+                                      width: 1.5,
+                                    ),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                    borderSide: const BorderSide(
+                                      color: Colors.red,
+                                      width: 2,
+                                    ),
+                                  ),
                                   contentPadding: const EdgeInsets.all(16),
                                   labelStyle: const TextStyle(
                                     color: Color(0xFF1E3A8A),
@@ -256,7 +307,6 @@ class LoginView extends GetView {
                                   return null;
                                 },
                               ),
-                            ),
                           ),
 
                           const SizedBox(height: 16),
