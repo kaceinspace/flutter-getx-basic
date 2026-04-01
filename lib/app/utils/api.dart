@@ -12,7 +12,18 @@ class BaseUrl {
   static String categories = '$_base/api/categories';
   static String latestBooks = '$_base/api/books/latest';
   static String books = '$_base/api/books';
+  static String booksSearch = '$_base/api/books/search';
+  static String booksByCategory = '$_base/api/books/category'; // + /{slug}
   static String borrowHistory = '$_base/api/borrows/history';
+  static String pdfs = '$_base/api/pdfs';
+  static String videos = '$_base/api/videos';
+
+  // Cart endpoints
+  static String cart = '$_base/api/cart';
+  static String cartAdd = '$_base/api/cart/add'; // + /{bookId}
+  static String cartUpdate = '$_base/api/cart/update'; // + /{id}
+  static String cartDelete = '$_base/api/cart/delete'; // + /{id}
+  static String borrow = '$_base/api/borrow';
 
   // Storage URL untuk gambar
   static String storageUrl = '$_base/storage';

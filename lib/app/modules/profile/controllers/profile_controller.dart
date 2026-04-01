@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -23,7 +25,9 @@ class ProfileController extends GetxController {
       final response = await _authService.getProfile();
 
       if (response.statusCode == 200 && response.body != null) {
-        final body = response.body;
+        final body = response.body is String
+            ? jsonDecode(response.body)
+            : response.body;
         if (body['status'] == true && body['data'] != null) {
           userData.value = Map<String, dynamic>.from(body['data']);
         }

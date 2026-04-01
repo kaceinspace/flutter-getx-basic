@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:rpl1getx/app/data/models/book_model.dart';
@@ -45,11 +46,13 @@ class DashboardController extends GetxController {
     try {
       final response = await _authService.getProfile();
       if (response.statusCode == 200 && response.body != null) {
-        final body = response.body;
+        final body = response.body is String
+            ? jsonDecode(response.body)
+            : response.body;
         if (body['status'] == true && body['data'] != null) {
           final data = body['data'];
           userName.value = data['name'] ?? '';
-          final kelas = data['kelas'] ?? '';
+          final kelas = data['grade']?['name'] ?? '';
           final jurusan = data['jurusan'] ?? '';
           userGrade.value = '$kelas $jurusan'.trim();
         }
@@ -64,7 +67,9 @@ class DashboardController extends GetxController {
     try {
       final response = await _dashboardService.getHome();
       if (response.statusCode == 200 && response.body != null) {
-        final body = response.body;
+        final body = response.body is String
+            ? jsonDecode(response.body)
+            : response.body;
         if (body['status'] == true && body['data'] != null) {
           final data = body['data'];
 
@@ -88,7 +93,9 @@ class DashboardController extends GetxController {
     try {
       final response = await _dashboardService.getCategories();
       if (response.statusCode == 200 && response.body != null) {
-        final body = response.body;
+        final body = response.body is String
+            ? jsonDecode(response.body)
+            : response.body;
         if (body['status'] == true && body['data'] != null) {
           categories.value = (body['data'] as List)
               .map((c) => CategoryModel.fromJson(c))
@@ -102,7 +109,9 @@ class DashboardController extends GetxController {
     try {
       final response = await _dashboardService.getBorrowHistory();
       if (response.statusCode == 200 && response.body != null) {
-        final body = response.body;
+        final body = response.body is String
+            ? jsonDecode(response.body)
+            : response.body;
         if (body['status'] == true && body['data'] != null) {
           final data = body['data'];
           final borrowings = data['borrowings'];

@@ -13,19 +13,23 @@ class SplashScreenController extends GetxController {
   }
 
   Future<void> _runSplash() async {
-    // Animate progress
-    for (int i = 0; i <= 100; i++) {
-      await Future.delayed(const Duration(milliseconds: 25));
-      progress.value = i / 100;
-    }
+    try {
+      // Animate progress
+      for (int i = 0; i <= 100; i++) {
+        await Future.delayed(const Duration(milliseconds: 25));
+        progress.value = i / 100;
+      }
 
-    await Future.delayed(const Duration(milliseconds: 300));
+      await Future.delayed(const Duration(milliseconds: 300));
 
-    // Check token
-    final token = box.read('token');
-    if (token != null && token.toString().isNotEmpty) {
-      Get.offAllNamed(Routes.BOTTOM_MENU);
-    } else {
+      // Check token
+      final token = box.read('token');
+      if (token != null && token.toString().isNotEmpty) {
+        Get.offAllNamed(Routes.BOTTOM_MENU);
+      } else {
+        Get.offAllNamed(Routes.LOGIN);
+      }
+    } catch (_) {
       Get.offAllNamed(Routes.LOGIN);
     }
   }

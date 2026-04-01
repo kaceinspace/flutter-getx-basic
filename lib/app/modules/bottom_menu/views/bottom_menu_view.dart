@@ -5,6 +5,7 @@ import '../controllers/bottom_menu_controller.dart';
 import '../../home/views/home_view.dart';
 import '../../dashboard/views/dashboard_view.dart';
 import '../../profile/views/profile_view.dart';
+import '../../cart/views/cart_view.dart';
 
 class BottomMenuView extends GetView<BottomMenuController> {
   const BottomMenuView({super.key});
@@ -14,7 +15,7 @@ class BottomMenuView extends GetView<BottomMenuController> {
     final pages = <Widget>[
       const DashboardView(),
       const HomeView(),
-      const _CartPlaceholder(),
+      const CartView(),
       const ProfileView(),
     ];
 
@@ -130,41 +131,4 @@ class _NavItem {
   final IconData icon;
   final String label;
   _NavItem({required this.icon, required this.label});
-}
-
-class _CartPlaceholder extends StatelessWidget {
-  const _CartPlaceholder();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              Icons.shopping_bag_outlined,
-              size: 64,
-              color: Colors.grey.shade300,
-            ),
-            const SizedBox(height: 16),
-            Text(
-              'Keranjang',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-                color: Colors.grey.shade400,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Segera hadir',
-              style: TextStyle(fontSize: 14, color: Colors.grey.shade400),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 }
