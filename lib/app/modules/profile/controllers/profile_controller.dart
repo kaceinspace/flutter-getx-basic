@@ -11,6 +11,7 @@ class ProfileController extends GetxController {
   final box = GetStorage();
 
   final isLoading = true.obs;
+  final errorMessage = ''.obs;
   final userData = Rxn<Map<String, dynamic>>();
 
   @override
@@ -22,29 +23,40 @@ class ProfileController extends GetxController {
   Future<void> fetchProfile() async {
     try {
       isLoading(true);
-      final response = await _authService.getProfile();
+      errorMessage('');
 
-      if (response.statusCode == 200 && response.body != null) {
-        final body = response.body is String
-            ? jsonDecode(response.body)
-            : response.body;
-        if (body['status'] == true && body['data'] != null) {
-          userData.value = Map<String, dynamic>.from(body['data']);
+      final token = box.read('token');
+      debugPrint('[Profile] token: $token');
+
+      final response = await _authService.getProfile();
+      debugPrint('[Profile] status: ${response.statusCode}');
+      debugPrint('[Profile] body type: ${response.body.runtimeType}');
+      debugPrint('[Profile] body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final raw = response.body;
+        if (raw == null) {
+          errorMessage('Response kosong dari server');
+          return;
+        }
+        final body = raw is String ? jsonDecode(raw) : raw;
+        final data = body['data'];
+        if (data != null) {
+          userData.value = Map<String, dynamic>.from(data);
+          debugPrint('[Profile] loaded: ${userData.value}');
+        } else {
+          errorMessage('Data tidak ditemukan dalam response');
         }
       } else if (response.statusCode == 401) {
         box.remove('token');
         Get.offAllNamed(Routes.LOGIN);
+      } else {
+        errorMessage('Server error: ${response.statusCode}');
       }
-    } catch (e) {
-      Get.snackbar(
-        'Error',
-        'Gagal memuat profil',
-        backgroundColor: Colors.red.shade600,
-        colorText: Colors.white,
-        snackPosition: SnackPosition.TOP,
-        margin: const EdgeInsets.all(16),
-        borderRadius: 12,
-      );
+    } catch (e, st) {
+      debugPrint('[Profile] EXCEPTION: $e');
+      debugPrint('[Profile] stack: $st');
+      errorMessage('Error: $e');
     } finally {
       isLoading(false);
     }
@@ -67,18 +79,24 @@ class ProfileController extends GetxController {
     }
   }
 
-  // Helpers
-  String get name => userData.value?['name'] ?? '-';
-  String get email => userData.value?['email'] ?? '-';
-  String get nis => userData.value?['nis'] ?? '-';
-  String get phone => userData.value?['phone_number'] ?? '-';
-  String get address => userData.value?['address'] ?? '-';
-  String get jurusan => userData.value?['jurusan'] ?? '-';
-  String get role => userData.value?['role'] ?? '-';
-  String get status => userData.value?['status'] ?? '-';
-  String get jenisKelamin => userData.value?['jenis_kelamin'] ?? '-';
-  String get gradeName => userData.value?['grade']?['name'] ?? '-';
-  String get schoolYear => userData.value?['grade']?['school_year'] ?? '-';
+  // Helpers — null or empty string both show '-'
+  String _v(dynamic val) {
+    if (val == null) return '-';
+    final s = val.toString().trim();
+    return s.isEmpty ? '-' : s;
+  }
+
+  String get name => _v(userData.value?['name']);
+  String get email => _v(userData.value?['email']);
+  String get nis => _v(userData.value?['nis']);
+  String get phone => _v(userData.value?['phone_number']);
+  String get address => _v(userData.value?['address']);
+  String get jurusan => _v(userData.value?['jurusan']);
+  String get role => _v(userData.value?['role']);
+  String get status => _v(userData.value?['status']);
+  String get jenisKelamin => _v(userData.value?['jenis_kelamin']);
+  String get gradeName => _v(userData.value?['grade']?['name']);
+  String get schoolYear => _v((userData.value?['grade'])?['school_year']);
 
   String get avatarUrl =>
       'https://ui-avatars.com/api/?name=${Uri.encodeComponent(name)}&background=1E3A8A&color=fff&size=128';

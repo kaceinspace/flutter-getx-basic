@@ -27,9 +27,14 @@ class ProfileView extends GetView<ProfileController> {
                   color: Colors.grey.shade300,
                 ),
                 const SizedBox(height: 16),
-                const Text(
-                  'Gagal memuat profil',
-                  style: TextStyle(color: Colors.grey),
+                Obx(
+                  () => Text(
+                    controller.errorMessage.value.isNotEmpty
+                        ? controller.errorMessage.value
+                        : 'Gagal memuat profil',
+                    style: const TextStyle(color: Colors.grey),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
                 const SizedBox(height: 12),
                 TextButton(

@@ -12,7 +12,7 @@ class BottomMenuBinding extends Bindings {
     Get.lazyPut<BottomMenuController>(() => BottomMenuController());
     Get.lazyPut<HomeController>(() => HomeController());
     Get.lazyPut<DashboardController>(() => DashboardController());
-    Get.lazyPut<ProfileController>(() => ProfileController());
+    Get.put<ProfileController>(ProfileController());
     Get.lazyPut<CartController>(() => CartController());
   }
 }
